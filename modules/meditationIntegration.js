@@ -50,32 +50,23 @@ export function getRecommendedMeditation(stressLevel) {
  * Launch meditation app with specific session
  */
 export async function launchMeditation(meditationType = null, stressLevel = 0) {
-  let url = meditationAppUrl;
+  // For demo, open the break page with meditation mode
+  const url = chrome.runtime.getURL('break.html');
   
-  // If no URL set, use default meditation placeholder
-  if (!url) {
-    url = 'https://meditation-app.local';
-  }
+  // Open in new tab
+  await chrome.tabs.create({ url: url, active: true });
   
-  // Get recommended meditation if not specified
+  // Log meditation start
   if (!meditationType) {
     const recommendation = getRecommendedMeditation(stressLevel);
     meditationType = recommendation.type;
   }
   
-  // Add query parameters for session type
-  const separator = url.includes('?') ? '&' : '?';
-  const fullUrl = `${url}${separator}session=${meditationType}&source=guidance-guru`;
-  
-  // Open in new tab
-  chrome.tabs.create({ url: fullUrl, active: true });
-  
-  // Log meditation start
   await logMeditationSession(meditationType, stressLevel);
   
   return {
     launched: true,
-    url: fullUrl,
+    url: url,
     meditationType,
     stressLevel
   };

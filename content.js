@@ -45,6 +45,10 @@ function handleMessage(message, sender, sendResponse) {
       showBreakEnforcement(message);
       break;
       
+    case 'openBreakPage':
+      openFullBreakPage(message.breakType);
+      break;
+      
     case 'startQuickBreak':
       startQuickBreak();
       break;
@@ -299,6 +303,15 @@ function completeBreak() {
 // Start quick break from context menu
 function startQuickBreak() {
   showBreakEnforcement({ emotion: { emotion: 'neutral' } });
+}
+
+// Open full break page in new tab
+function openFullBreakPage(breakType = 'quick') {
+  // Send message to background to open the break page
+  chrome.runtime.sendMessage({
+    action: 'openBreakPage',
+    breakType: breakType
+  });
 }
 
 // Launch meditation

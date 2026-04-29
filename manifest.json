@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Guidance Guru",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A productivity wellness Chrome extension with real-time emotion recognition, posture monitoring, and mindful break enforcement.",
   "permissions": [
     "activeTab",
@@ -13,9 +13,6 @@
   ],
   "host_permissions": [
     "<all_urls>"
-  ],
-  "optional_permissions": [
-    "camera"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -46,7 +43,8 @@
     {
       "resources": [
         "assets/models/*",
-        "ui/*"
+        "ui/*",
+        "break.html"
       ],
       "matches": ["<all_urls>"]
     }

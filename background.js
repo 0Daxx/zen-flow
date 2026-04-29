@@ -135,7 +135,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       chrome.tabs.sendMessage(tab.id, { action: 'startQuickBreak' });
       break;
     case 'gg-meditate':
-      chrome.tabs.sendMessage(tab.id, { action: 'launchMeditation' });
+      await launchMeditationFromContext();
       break;
     case 'gg-exclude-site':
       const domain = new URL(tab.url).hostname;
@@ -155,6 +155,24 @@ async function excludeSite(domain) {
   if (!settings.excludedSites.includes(domain)) {
     settings.excludedSites.push(domain);
     await chrome.storage.local.set({ excludedSites: settings.excludedSites });
+  }
+}
+
+// Launch meditation from context menu
+async function launchMeditationFromContext() {
+  try {
+    // Get current emotion to recommend appropriate meditation
+    const response = await chrome.runtime.sendMessage({ action: 'getCurrentState' });
+    const stressLevel = response?.emotion?.emotion === 'stressed' ? 75 : 50;
+    
+    // Import and call meditation integration
+    const { launchMeditation } = await import('./modules/meditationIntegration.js');
+    await launchMeditation(null, stressLevel);
+  } catch (error) {
+    console.error('Failed to launch meditation:', error);
+    // Fallback: open break page directly
+    const url = chrome.runtime.getURL('break.html');
+    await chrome.tabs.create({ url: url, active: true });
   }
 }
 
@@ -242,6 +260,16 @@ async function handleMessage(message, sender, sendResponse) {
         sendResponse({ success: true });
         break;
         
+      case 'openBreakPage':
+        await openBreakPage(message.breakType);
+        sendResponse({ success: true });
+        break;
+        
+      case 'breakCompleted':
+        await handleBreakCompletion(message.type, message.duration);
+        sendResponse({ success: true });
+        break;
+        
       case 'requestPermissions':
         requestCameraPermission().then(granted => {
           sendResponse({ granted });
@@ -322,6 +350,42 @@ async function requestCameraPermission() {
   } catch (error) {
     console.error('Camera permission denied:', error);
     return false;
+  }
+}
+
+// Open break page in new tab
+async function openBreakPage(breakType = 'quick') {
+  try {
+    const url = chrome.runtime.getURL('break.html');
+    
+    await chrome.tabs.create({
+      url: url,
+      active: true
+    });
+    
+    console.log('Break page opened:', breakType);
+  } catch (error) {
+    console.error('Failed to open break page:', error);
+  }
+}
+
+// Handle break completion
+async function handleBreakCompletion(breakType, duration) {
+  try {
+    // Reset stress tracking
+    stressStartTime = null;
+    
+    console.log('Break completed:', breakType, duration);
+    
+    // Show notification
+    chrome.notifications?.create({
+      type: 'basic',
+      iconUrl: 'assets/icons/icon48.png',
+      title: 'Break Complete!',
+      message: `Great job taking your ${breakType} break!`
+    });
+  } catch (error) {
+    console.error('Error handling break completion:', error);
   }
 }
 

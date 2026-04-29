@@ -9,6 +9,26 @@ let breakTimer = null;
 let currentBreak = null;
 
 /**
+ * Show break page in full screen
+ */
+export async function showBreakPage(breakType = 'quick') {
+  try {
+    // Create a new tab with the break page
+    const url = chrome.runtime.getURL('break.html');
+    
+    await chrome.tabs.create({
+      url: url,
+      active: true
+    });
+    
+    return true;
+  } catch (error) {
+    console.error('Failed to open break page:', error);
+    return false;
+  }
+}
+
+/**
  * Check if break should be triggered based on posture and stress
  */
 export async function checkBreakTrigger(emotion, postureScore) {

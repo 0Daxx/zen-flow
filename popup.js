@@ -291,12 +291,11 @@ function showSaveSuccess() {
 
 // Start quick break
 function startQuickBreak() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs[0]) {
-      chrome.tabs.sendMessage(tabs[0].id, { action: 'startQuickBreak' });
-    }
+  // Open the full break page
+  chrome.runtime.sendMessage({ 
+    action: 'openBreakPage', 
+    breakType: 'quick' 
   });
-  
   window.close();
 }
 
