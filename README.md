@@ -1,142 +1,188 @@
-# Guidance Guru - Meditation & Breathing Website
+# 🧘 Guidance Guru - Wellness & Mindfulness Platform
 
-## Version 0.0.1 - Demo Ready! 🎉
+A premium dark-themed wellness website featuring emotion recognition, posture monitoring, meditation timer, breathing exercises, and comprehensive analytics.
 
-A beautiful, calming wellness website featuring meditation timer and breathing exercises.
+## ✨ Features
 
-## Features
+### 1. Real-Time Emotion Detection
+- AI-powered facial emotion recognition using face-api.js
+- Detects: Happy, Sad, Angry, Fearful, Disgusted, Surprised, Neutral, Stressed
+- Updates every 30 seconds with confidence scores
+- Color-coded status indicators (Green/Yellow/Red)
 
-### 🧘 Section 1: Meditation Timer
-- **Preset Durations**: 5, 10, 15, 30 minutes
-- **Custom Duration**: Enter any duration from 1-120 minutes
-- **Ambient Sounds**: Choose from Forest, Rain, or Ocean
-- **Visual Progress Ring**: Beautiful circular timer that depletes as time passes
-- **Start/Pause/Reset Controls**: Full control over your session
-- **Session Tracking**: Automatically saves completed sessions to localStorage
+### 2. Posture Monitoring
+- Real-time posture scoring (0-100)
+- Tracks: Head tilt, Shoulder balance, Spine alignment
+- Automatic break recommendations for poor posture + stress
+- Visual progress circle with color coding
 
-### 💨 Section 2: Breathing Exercises
-- **4 Breathing Techniques**:
-  - **Box Breathing** (4-4-4-4): Perfect for beginners, great for focus
-  - **4-7-8 Relax**: Deep relaxation technique
-  - **Stress Relief** (4-6-8): Releases tension and anxiety
-  - **Anxiety Calm** (5-5-5): Balanced rhythm for calming nerves
-  
-- **Super Animation**: 
-  - Inhale: Circle expands with blue glow
-  - Hold: Circle maintains size with intensified glow
-  - Exhale: Circle contracts smoothly
-  
-- **Real-time Stats**: 
-  - Cycles completed counter
-  - Session timer
-  
-- **Phase Instructions**: Clear guidance for each breathing phase
+### 3. Meditation Studio
+- Customizable timer (5, 10, 15, 30 min or custom)
+- Ambient sound selection: Forest, Rain, Ocean
+- Circular progress indicator
+- Start/Pause/Reset controls
+- Session logging
 
-## How to Use
+### 4. Breathing Exercises
+- 4 techniques: Box Breathing (4-4-4-4), 4-7-8 Relax, Stress Relief (4-6-8), Balance (5-5-5)
+- Super smooth animations for Inhale/Hold/Exhale phases
+- Animated breathing circle with glow effects
+- Cycle counter and session timer
+- Phase indicators
+
+### 5. Break Enforcement System
+- Full-screen modal overlay
+- 3 break types: Quick (2min), Stretch (3min), Walk (5min)
+- Countdown timer with progress bar
+- Cannot dismiss until break completes
+- Auto-triggered by poor posture + stress
+
+### 6. Analytics Dashboard
+- Daily Stress Index chart
+- Posture trends (weekly)
+- Emotion distribution (doughnut chart)
+- Wellness insights
+- Data export to CSV
+
+## 🎨 Design Highlights
+
+### Premium Dark Theme
+- Deep blue color palette (#0a0e17, #0f1425, #161f3a)
+- Blue accent colors (#3b82f6, #2563eb, #1d4ed8)
+- Glass morphism effects with backdrop blur
+- Glowing shadows and gradients
+
+### Senior Designer Animations
+- Smooth fade-in section transitions
+- Pulsing glow effects on indicators
+- Breathing circle animations (inhale/hold/exhale)
+- Floating particle background
+- Wave animations on audio selectors
+- Hover lift effects on cards
+- Shimmer text effects
+- Logo pulse animation
+
+## 🚀 Getting Started
 
 ### Option 1: Open Directly
-Simply open `index.html` in any modern web browser (Chrome, Firefox, Safari, Edge).
+Simply open `index.html` in your browser.
 
-### Option 2: Local Server (Recommended)
-For the best experience, serve the files locally:
-
+### Option 2: Use a Local Server
 ```bash
-# Using Python 3
+# Using Python
 python -m http.server 8000
 
-# Using Node.js (if you have npx)
+# Using Node.js
 npx serve
 
-# Using PHP
-php -S localhost:8000
+# Then open http://localhost:8000
 ```
 
-Then navigate to `http://localhost:8000`
-
-## File Structure
+## 📁 File Structure
 
 ```
 /workspace/
-├── index.html      # Main HTML file
-├── styles.css      # All styling (blue theme, animations)
-├── app.js          # Application logic
-└── README.md       # This file
+├── index.html          # Main HTML structure
+├── styles.css          # Premium dark theme CSS
+├── app.js              # Application logic
+└── README.md           # This file
 ```
 
-## Technical Details
+## 🛠️ Technologies Used
 
-### Technologies Used
-- **HTML5**: Semantic structure
-- **CSS3**: Flexbox, Grid, CSS Variables, Animations
-- **Vanilla JavaScript (ES6+)**: Classes, arrow functions, localStorage
+- **HTML5** - Semantic structure
+- **CSS3** - Flexbox, Grid, Custom Properties, Animations
+- **Vanilla JavaScript (ES6+)** - No frameworks, pure JS
+- **face-api.js** - Emotion detection (TensorFlow.js based)
+- **Chart.js** - Analytics visualizations
+- **IndexedDB** - Local data storage
 
-### Key Features
-- ✅ **Responsive Design**: Works on desktop, tablet, and mobile
-- ✅ **No Dependencies**: Pure vanilla JS, no frameworks needed
-- ✅ **Offline Capable**: Works without internet connection
-- ✅ **LocalStorage**: Sessions persist between visits
-- ✅ **Smooth Animations**: 60fps CSS transitions
+## 🎯 Usage Guide
 
-### Browser Compatibility
-- Chrome/Edge (recommended)
-- Firefox
-- Safari
-- Opera
+### Emotion Detection
+1. Click the camera icon on the Emotion card
+2. Allow camera access when prompted
+3. Wait for AI models to load (~10 seconds)
+4. Your emotion will be detected every 30 seconds
 
-## Customization
+### Meditation
+1. Select duration (preset or custom)
+2. Choose ambient sound
+3. Click "Start Session"
+4. Timer counts down with circular progress
 
-### Colors
-Edit CSS variables in `styles.css`:
-```css
-:root {
-    --primary-blue: #2563eb;
-    --light-blue: #dbeafe;
-    --accent-blue: #0ea5e9;
-    --calm-green: #10b981;
-}
-```
+### Breathing Exercise
+1. Select technique from left panel
+2. Click "Start Exercise"
+3. Follow the animated circle:
+   - Expands = Inhale
+   - Glows = Hold
+   - Contracts = Exhale
+4. Complete cycles for best results
 
-### Breathing Patterns
-Modify techniques in `app.js`:
-```javascript
-this.techniques = {
-    box: {
-        pattern: [
-            { phase: 'inhale', duration: 4 },
-            { phase: 'hold', duration: 4 },
-            { phase: 'exhale', duration: 4 },
-            { phase: 'hold', duration: 4 }
-        ]
-    }
-};
-```
+### Take a Break
+- Click "Take a Break Now" button
+- Or auto-triggered when stressed + poor posture
+- Select break type
+- Timer runs, cannot close early
+- Logged to analytics
 
-## Future Enhancements (v0.0.2+)
-- [ ] Actual ambient audio files (Forest, Rain, Ocean sounds)
-- [ ] Web Audio API for generated soundscapes
-- [ ] User accounts and cloud sync
-- [ ] More breathing techniques
-- [ ] Guided meditations
-- [ ] Progress charts and analytics
-- [ ] Dark mode option
-- [ ] PWA support for mobile installation
+## 📊 Data Storage
 
-## Screenshots
+All data is stored locally in IndexedDB:
+- Emotion sessions
+- Posture records
+- Meditation sessions
+- Break history
 
-The app features:
-- Beautiful gradient purple background
-- Clean white cards with blue accents
-- Animated breathing circle that expands/contracts
-- Circular progress timer for meditation
-- Responsive navigation bar
-- Smooth section transitions
+Data can be exported as CSV from the Analytics section.
 
-## License
+## 🔒 Privacy
 
-MIT License - Feel free to use and modify!
+- 100% offline operation
+- No data sent to external servers
+- Camera access only when explicitly enabled
+- All processing done locally in browser
+
+## 🎨 Color Palette
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Primary Blue | #3b82f6 | Main accents, buttons |
+| Secondary Blue | #2563eb | Links, highlights |
+| Tertiary Blue | #1d4ed8 | Gradients |
+| Success Green | #10b981 | Positive feedback |
+| Warning Amber | #f59e0b | Caution states |
+| Danger Red | #ef4444 | Stress alerts |
+| Background | #0a0e17 | Main background |
+
+## 🐛 Troubleshooting
+
+### Camera not working
+- Ensure you've granted camera permissions
+- Check if another app is using the camera
+- Try refreshing the page
+
+### AI models not loading
+- Check internet connection (models load from CDN)
+- Wait ~10 seconds for initial load
+- Check browser console for errors
+
+### Charts not displaying
+- Ensure Chart.js CDN is accessible
+- Navigate to Analytics tab to trigger render
+
+## 📝 Browser Support
+
+- Chrome 90+
+- Firefox 90+
+- Safari 14+
+- Edge 90+
+
+## 🙏 Credits
+
+Built following the plan.md specification for Guidance Guru wellness platform.
 
 ---
 
-**Created with ❤️ for wellness and mindfulness**
-
-*Guidance Guru v0.0.1 - Your path to inner peace starts here.*
+**Made with 💙 for mindfulness and productivity**

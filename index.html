@@ -3,169 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guidance Guru - Meditation & Breathing</title>
+    <title>Guidance Guru - Wellness & Mindfulness</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@2.2.2/dist/posenet.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script defer src="app.js"></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <span class="logo-icon">🧘</span>
-            <h1>Guidance Guru</h1>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+        <div class="clouds"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="nav-brand">
+            <div class="logo-glow"></div>
+            <span class="brand-text">Guidance Guru</span>
         </div>
         <ul class="nav-links">
-            <li><a href="#meditation" class="active">Meditation</a></li>
-            <li><a href="#breathing">Breathing</a></li>
+            <li class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item" data-section="meditation">
+                <span class="nav-icon">🧘</span>
+                <span>Meditation</span>
+            </li>
+            <li class="nav-item" data-section="breathing">
+                <span class="nav-icon">🌬️</span>
+                <span>Breathing</span>
+            </li>
+            <li class="nav-item" data-section="analytics">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </li>
         </ul>
+        <div class="nav-status">
+            <div class="status-indicator" id="cameraStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Camera Off</span>
+            </div>
+        </div>
     </nav>
 
-    <main class="container">
-        <!-- Section 1: Meditation -->
-        <section id="meditation" class="section active">
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
             <div class="section-header">
-                <h2>🧘 Meditation Timer</h2>
-                <p>Find your inner peace with guided meditation sessions</p>
+                <h1 class="section-title glow-text">Real-Time Wellness Monitor</h1>
+                <p class="section-subtitle">Track your emotions, posture, and stress levels</p>
             </div>
 
-            <div class="meditation-container">
-                <div class="timer-display">
-                    <div class="time-circle">
-                        <svg class="progress-ring" width="280" height="280">
-                            <circle class="progress-ring-bg" cx="140" cy="140" r="130"/>
-                            <circle class="progress-ring-circle" cx="140" cy="140" r="130"/>
-                        </svg>
-                        <div class="time-text">
-                            <span id="minutes">05</span>:<span id="seconds">00</span>
+            <div class="dashboard-grid">
+                <!-- Emotion Recognition Card -->
+                <div class="card glass emotion-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">😊</span>
+                            Emotion Detection
+                        </h2>
+                        <button class="btn-toggle" id="toggleEmotion" title="Toggle Camera">
+                            <span class="toggle-icon">📷</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="video-container">
+                            <video id="video" autoplay muted playsinline></video>
+                            <canvas id="overlay"></canvas>
+                            <div class="video-overlay">
+                                <div class="loading-spinner" id="emotionLoading">
+                                    <div class="spinner"></div>
+                                    <span>Loading AI Models...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="emotion-display">
+                            <div class="emotion-icon-large" id="currentEmotion">
+                                <span class="emoji">😐</span>
+                            </div>
+                            <div class="emotion-info">
+                                <h3 class="emotion-name" id="emotionName">Neutral</h3>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+                                </div>
+                                <span class="confidence-text" id="confidenceText">0%</span>
+                            </div>
+                        </div>
+                        <div class="emotion-status" id="emotionStatus">
+                            <span class="status-badge neutral">Monitoring</span>
                         </div>
                     </div>
-                    <div class="timer-status" id="timerStatus">Ready to meditate</div>
                 </div>
 
-                <div class="controls-container">
-                    <div class="duration-selector">
-                        <h3>Duration</h3>
-                        <div class="preset-buttons">
-                            <button class="duration-btn" data-duration="5">5 min</button>
-                            <button class="duration-btn" data-duration="10">10 min</button>
-                            <button class="duration-btn" data-duration="15">15 min</button>
-                            <button class="duration-btn" data-duration="30">30 min</button>
+                <!-- Posture Score Card -->
+                <div class="card glass posture-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">🧍</span>
+                            Posture Monitor
+                        </h2>
+                        <button class="btn-toggle" id="togglePosture" title="Toggle Posture Detection">
+                            <span class="toggle-icon">🎯</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="posture-visual">
+                            <div class="posture-circle">
+                                <svg viewBox="0 0 120 120" class="posture-svg">
+                                    <circle class="posture-bg" cx="60" cy="60" r="52"/>
+                                    <circle class="posture-progress" id="postureProgress" cx="60" cy="60" r="52" 
+                                            stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+                                </svg>
+                                <div class="posture-center">
+                                    <span class="posture-score" id="postureScore">--</span>
+                                    <span class="posture-label">Score</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="custom-duration">
-                            <label for="customTime">Custom (minutes):</label>
-                            <input type="number" id="customTime" min="1" max="120" placeholder="Enter duration">
-                            <button id="setCustomDuration" class="primary-btn">Set</button>
+                        <div class="posture-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">Head Tilt</span>
+                                <span class="metric-value" id="headTilt">0°</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Shoulder Balance</span>
+                                <span class="metric-value" id="shoulderBalance">Balanced</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Spine Alignment</span>
+                                <span class="metric-value" id="spineAlignment">Good</span>
+                            </div>
+                        </div>
+                        <div class="posture-feedback" id="postureFeedback">
+                            <span class="feedback-badge good">Excellent Posture!</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="audio-selector">
-                        <h3>Ambient Sound</h3>
-                        <div class="audio-options">
-                            <label class="audio-option">
-                                <input type="radio" name="audio" value="forest" checked>
-                                <div class="audio-card">
-                                    <span class="audio-icon">🌲</span>
-                                    <span>Forest</span>
-                                </div>
-                            </label>
-                            <label class="audio-option">
-                                <input type="radio" name="audio" value="rain">
-                                <div class="audio-card">
-                                    <span class="audio-icon">🌧️</span>
-                                    <span>Rain</span>
-                                </div>
-                            </label>
-                            <label class="audio-option">
-                                <input type="radio" name="audio" value="ocean">
-                                <div class="audio-card">
-                                    <span class="audio-icon">🌊</span>
-                                    <span>Ocean</span>
-                                </div>
-                            </label>
-                        </div>
+                <!-- Quick Stats Card -->
+                <div class="card glass stats-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">⚡</span>
+                            Today's Overview
+                        </h2>
                     </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon stress">📊</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stressIndex">0</span>
+                                    <span class="stat-label">Stress Index</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon breaks">⏸️</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="breaksTaken">0</span>
+                                    <span class="stat-label">Breaks Taken</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon meditation">🧘</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="meditationMinutes">0</span>
+                                    <span class="stat-label">Meditation Min</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon focus">🎯</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="focusTime">0h</span>
+                                    <span class="stat-label">Focus Time</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary btn-full" id="takeBreakBtn">
+                            <span class="btn-icon">🌿</span>
+                            Take a Break Now
+                        </button>
+                    </div>
+                </div>
 
-                    <div class="timer-controls">
-                        <button id="startBtn" class="control-btn start-btn">▶ Start</button>
-                        <button id="pauseBtn" class="control-btn pause-btn" disabled>⏸ Pause</button>
-                        <button id="resetBtn" class="control-btn reset-btn">↻ Reset</button>
+                <!-- Recent Activity Card -->
+                <div class="card glass activity-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">📋</span>
+                            Recent Activity
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-empty">
+                                <span class="empty-icon">📝</span>
+                                <span>No activity recorded yet</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Breathing -->
-        <section id="breathing" class="section">
+        <!-- Meditation Section -->
+        <section id="meditation" class="section">
             <div class="section-header">
-                <h2>💨 Breathing Exercises</h2>
-                <p>Calm your mind with guided breathing techniques</p>
+                <h1 class="section-title glow-text">Meditation Studio</h1>
+                <p class="section-subtitle">Find your inner peace with guided sessions</p>
             </div>
 
-            <div class="breathing-container">
-                <div class="technique-selector">
-                    <h3>Choose Technique</h3>
-                    <div class="technique-cards">
-                        <div class="technique-card active" data-technique="box">
-                            <div class="technique-icon">📦</div>
-                            <h4>Box Breathing</h4>
-                            <p>4-4-4-4 pattern</p>
-                            <span class="difficulty easy">Beginner</span>
-                        </div>
-                        <div class="technique-card" data-technique="relax">
-                            <div class="technique-icon">😌</div>
-                            <h4>4-7-8 Relax</h4>
-                            <p>4-7-8 pattern</p>
-                            <span class="difficulty medium">Intermediate</span>
-                        </div>
-                        <div class="technique-card" data-technique="stress">
-                            <div class="technique-icon">😰</div>
-                            <h4>Stress Relief</h4>
-                            <p>4-6-8 pattern</p>
-                            <span class="difficulty easy">Beginner</span>
-                        </div>
-                        <div class="technique-card" data-technique="anxiety">
-                            <div class="technique-icon">🌀</div>
-                            <h4>Anxiety Calm</h4>
-                            <p>5-5-5 pattern</p>
-                            <span class="difficulty medium">Intermediate</span>
+            <div class="meditation-container">
+                <!-- Timer Display -->
+                <div class="timer-display glass">
+                    <div class="timer-circle">
+                        <svg viewBox="0 0 200 200" class="timer-svg">
+                            <circle class="timer-bg" cx="100" cy="100" r="90"/>
+                            <circle class="timer-progress" id="timerProgress" cx="100" cy="100" r="90" 
+                                    stroke-dasharray="565.5" stroke-dashoffset="565.5"/>
+                        </svg>
+                        <div class="timer-center">
+                            <span class="timer-time" id="timerTime">05:00</span>
+                            <span class="timer-label">Remaining</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="breathing-animation-container">
-                    <div class="breathing-circle-wrapper">
+                <!-- Duration Selection -->
+                <div class="duration-selector glass">
+                    <h3 class="selector-title">Select Duration</h3>
+                    <div class="duration-buttons">
+                        <button class="duration-btn" data-minutes="5">5 min</button>
+                        <button class="duration-btn" data-minutes="10">10 min</button>
+                        <button class="duration-btn" data-minutes="15">15 min</button>
+                        <button class="duration-btn" data-minutes="30">30 min</button>
+                        <div class="custom-duration">
+                            <input type="number" id="customDuration" min="1" max="120" placeholder="Custom">
+                            <button class="btn-set" id="setCustomDuration">Set</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Selection -->
+                <div class="audio-selector glass">
+                    <h3 class="selector-title">Ambient Sound</h3>
+                    <div class="audio-options">
+                        <div class="audio-option" data-audio="forest">
+                            <div class="audio-icon">🌲</div>
+                            <span>Forest</span>
+                            <div class="audio-wave"></div>
+                        </div>
+                        <div class="audio-option" data-audio="rain">
+                            <div class="audio-icon">🌧️</div>
+                            <span>Rain</span>
+                            <div class="audio-wave"></div>
+                        </div>
+                        <div class="audio-option" data-audio="ocean">
+                            <div class="audio-icon">🌊</div>
+                            <span>Ocean</span>
+                            <div class="audio-wave"></div>
+                        </div>
+                    </div>
+                    <audio id="audioPlayer" loop></audio>
+                </div>
+
+                <!-- Controls -->
+                <div class="meditation-controls glass">
+                    <button class="btn-control btn-start" id="startMeditation">
+                        <span class="control-icon">▶️</span>
+                        Start Session
+                    </button>
+                    <button class="btn-control btn-pause" id="pauseMeditation" disabled>
+                        <span class="control-icon">⏸️</span>
+                        Pause
+                    </button>
+                    <button class="btn-control btn-reset" id="resetMeditation">
+                        <span class="control-icon">🔄</span>
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Breathing Section -->
+        <section id="breathing" class="section">
+            <div class="section-header">
+                <h1 class="section-title glow-text">Breathing Exercises</h1>
+                <p class="section-subtitle">Master your breath, master your mind</p>
+            </div>
+
+            <div class="breathing-container">
+                <!-- Technique Selector -->
+                <div class="technique-selector glass">
+                    <h3 class="selector-title">Choose Technique</h3>
+                    <div class="technique-options">
+                        <div class="technique-option active" data-technique="box">
+                            <h4>Box Breathing</h4>
+                            <p>4-4-4-4</p>
+                            <span class="technique-benefit">Focus & Calm</span>
+                        </div>
+                        <div class="technique-option" data-technique="relax">
+                            <h4>4-7-8 Relax</h4>
+                            <p>4-7-8</p>
+                            <span class="technique-benefit">Deep Relaxation</span>
+                        </div>
+                        <div class="technique-option" data-technique="stress">
+                            <h4>Stress Relief</h4>
+                            <p>4-6-8</p>
+                            <span class="technique-benefit">Reduce Anxiety</span>
+                        </div>
+                        <div class="technique-option" data-technique="balance">
+                            <h4>Balance</h4>
+                            <p>5-5-5</p>
+                            <span class="technique-benefit">Emotional Balance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breathing Animation -->
+                <div class="breathing-animation glass">
+                    <div class="breathing-circle-container">
                         <div class="breathing-circle" id="breathingCircle">
-                            <div class="inner-circle"></div>
-                            <div class="phase-text" id="phaseText">Ready</div>
+                            <div class="circle-inner"></div>
+                            <div class="circle-glow"></div>
                         </div>
-                        <div class="breathing-instructions" id="breathingInstructions">
-                            Select a technique and press Start
-                        </div>
-                    </div>
-
-                    <div class="breathing-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Cycles Completed</span>
-                            <span class="stat-value" id="cyclesCount">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Session Time</span>
-                            <span class="stat-value" id="sessionTime">00:00</span>
+                        <div class="phase-indicator" id="phaseIndicator">
+                            <span class="phase-text">Ready</span>
                         </div>
                     </div>
+                    <div class="breathing-instructions" id="breathingInstructions">
+                        <p>Click "Start" to begin your breathing exercise</p>
+                    </div>
+                </div>
 
-                    <div class="breathing-controls">
-                        <button id="startBreathingBtn" class="control-btn start-btn">▶ Start</button>
-                        <button id="pauseBreathingBtn" class="control-btn pause-btn" disabled>⏸ Pause</button>
-                        <button id="resetBreathingBtn" class="control-btn reset-btn">↻ Reset</button>
+                <!-- Controls -->
+                <div class="breathing-controls glass">
+                    <button class="btn-control btn-start" id="startBreathing">
+                        <span class="control-icon">▶️</span>
+                        Start Exercise
+                    </button>
+                    <button class="btn-control btn-pause" id="pauseBreathing" disabled>
+                        <span class="control-icon">⏸️</span>
+                        Pause
+                    </button>
+                    <button class="btn-control btn-reset" id="resetBreathing">
+                        <span class="control-icon">🔄</span>
+                        Reset
+                    </button>
+                </div>
+
+                <!-- Cycle Counter -->
+                <div class="cycle-counter glass">
+                    <div class="counter-item">
+                        <span class="counter-value" id="currentCycle">0</span>
+                        <span class="counter-label">Current Cycle</span>
+                    </div>
+                    <div class="counter-item">
+                        <span class="counter-value" id="totalCycles">0</span>
+                        <span class="counter-label">Total Cycles</span>
+                    </div>
+                    <div class="counter-item">
+                        <span class="counter-value" id="sessionTime">0:00</span>
+                        <span class="counter-label">Session Time</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section-header">
+                <h1 class="section-title glow-text">Wellness Analytics</h1>
+                <p class="section-subtitle">Insights into your mental wellbeing journey</p>
+            </div>
+
+            <div class="analytics-grid">
+                <!-- Stress Index Chart -->
+                <div class="card glass chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">📊</span>
+                            Daily Stress Index
+                        </h2>
+                        <div class="chart-controls">
+                            <button class="btn-chart active" data-period="today">Today</button>
+                            <button class="btn-chart" data-period="week">Week</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="stressChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Posture Trends -->
+                <div class="card glass chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">📈</span>
+                            Posture Trends
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="postureChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Emotion Distribution -->
+                <div class="card glass chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">🎭</span>
+                            Emotion Distribution
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="emotionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Wellness Insights -->
+                <div class="card glass insights-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">💡</span>
+                            Wellness Insights
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="insights-list" id="insightsList">
+                            <div class="insight-item">
+                                <span class="insight-icon">🌟</span>
+                                <p>Your best posture day this week was <strong>Thursday</strong> with an average score of <strong>85/100</strong></p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-icon">🧘</span>
+                                <p>Meditation sessions have reduced your stress index by an average of <strong>35%</strong></p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-icon">⏰</span>
+                                <p>You tend to be most stressed on <strong>Mondays at 11 AM</strong>. Consider scheduling breaks then.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Data -->
+                <div class="card glass export-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">📥</span>
+                            Export Data
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="export-desc">Download your wellness data as CSV for personal records</p>
+                        <button class="btn-primary" id="exportData">
+                            <span class="btn-icon">📥</span>
+                            Export to CSV
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <p>© 2024 Guidance Guru - Your Wellness Companion</p>
-    </footer>
+    <!-- Break Modal Overlay -->
+    <div class="modal-overlay" id="breakModal">
+        <div class="modal-content glass break-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🌿 Time for a Break</h2>
+                <p class="modal-subtitle">Your wellbeing matters. Take a moment to reset.</p>
+            </div>
+            <div class="modal-body">
+                <div class="break-stats">
+                    <div class="break-stat">
+                        <span class="stat-value" id="breakStressLevel">High</span>
+                        <span class="stat-label">Current Stress</span>
+                    </div>
+                    <div class="break-stat">
+                        <span class="stat-value" id="breakPostureScore">Low</span>
+                        <span class="stat-label">Posture Score</span>
+                    </div>
+                    <div class="break-stat">
+                        <span class="stat-value" id="breakSessionTime">45m</span>
+                        <span class="stat-label">Session Duration</span>
+                    </div>
+                </div>
+                <div class="break-options">
+                    <div class="break-option" data-type="quick" data-duration="120">
+                        <div class="option-icon">⚡</div>
+                        <h3>Quick Break</h3>
+                        <p>2 minutes</p>
+                        <span class="option-desc">Quick breathing exercise</span>
+                    </div>
+                    <div class="break-option" data-type="stretch" data-duration="180">
+                        <div class="option-icon">🤸</div>
+                        <h3>Stretch Guide</h3>
+                        <p>3 minutes</p>
+                        <span class="option-desc">Posture correction exercises</span>
+                    </div>
+                    <div class="break-option" data-type="walk" data-duration="300">
+                        <div class="option-icon">🚶</div>
+                        <h3>Walk Break</h3>
+                        <p>5 minutes</p>
+                        <span class="option-desc">Step away and refresh</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="break-timer" id="breakTimer" style="display: none;">
+                    <span class="timer-display" id="breakTimerDisplay">02:00</span>
+                    <div class="timer-progress-bar">
+                        <div class="progress-fill" id="breakProgressFill"></div>
+                    </div>
+                </div>
+                <p class="break-message" id="breakMessage">Select a break type to begin</p>
+            </div>
+        </div>
+    </div>
 
-    <script src="app.js"></script>
+    <!-- SVG Gradients -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="postureGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+            </linearGradient>
+            <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#60a5fa;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#93c5fd;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
 </body>
 </html>
