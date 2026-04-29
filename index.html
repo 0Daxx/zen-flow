@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guidance Guru - Meditation & Breathing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">🧘</span>
+            <h1>Guidance Guru</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#meditation" class="active">Meditation</a></li>
+            <li><a href="#breathing">Breathing</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <!-- Section 1: Meditation -->
+        <section id="meditation" class="section active">
+            <div class="section-header">
+                <h2>🧘 Meditation Timer</h2>
+                <p>Find your inner peace with guided meditation sessions</p>
+            </div>
+
+            <div class="meditation-container">
+                <div class="timer-display">
+                    <div class="time-circle">
+                        <svg class="progress-ring" width="280" height="280">
+                            <circle class="progress-ring-bg" cx="140" cy="140" r="130"/>
+                            <circle class="progress-ring-circle" cx="140" cy="140" r="130"/>
+                        </svg>
+                        <div class="time-text">
+                            <span id="minutes">05</span>:<span id="seconds">00</span>
+                        </div>
+                    </div>
+                    <div class="timer-status" id="timerStatus">Ready to meditate</div>
+                </div>
+
+                <div class="controls-container">
+                    <div class="duration-selector">
+                        <h3>Duration</h3>
+                        <div class="preset-buttons">
+                            <button class="duration-btn" data-duration="5">5 min</button>
+                            <button class="duration-btn" data-duration="10">10 min</button>
+                            <button class="duration-btn" data-duration="15">15 min</button>
+                            <button class="duration-btn" data-duration="30">30 min</button>
+                        </div>
+                        <div class="custom-duration">
+                            <label for="customTime">Custom (minutes):</label>
+                            <input type="number" id="customTime" min="1" max="120" placeholder="Enter duration">
+                            <button id="setCustomDuration" class="primary-btn">Set</button>
+                        </div>
+                    </div>
+
+                    <div class="audio-selector">
+                        <h3>Ambient Sound</h3>
+                        <div class="audio-options">
+                            <label class="audio-option">
+                                <input type="radio" name="audio" value="forest" checked>
+                                <div class="audio-card">
+                                    <span class="audio-icon">🌲</span>
+                                    <span>Forest</span>
+                                </div>
+                            </label>
+                            <label class="audio-option">
+                                <input type="radio" name="audio" value="rain">
+                                <div class="audio-card">
+                                    <span class="audio-icon">🌧️</span>
+                                    <span>Rain</span>
+                                </div>
+                            </label>
+                            <label class="audio-option">
+                                <input type="radio" name="audio" value="ocean">
+                                <div class="audio-card">
+                                    <span class="audio-icon">🌊</span>
+                                    <span>Ocean</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="timer-controls">
+                        <button id="startBtn" class="control-btn start-btn">▶ Start</button>
+                        <button id="pauseBtn" class="control-btn pause-btn" disabled>⏸ Pause</button>
+                        <button id="resetBtn" class="control-btn reset-btn">↻ Reset</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Breathing -->
+        <section id="breathing" class="section">
+            <div class="section-header">
+                <h2>💨 Breathing Exercises</h2>
+                <p>Calm your mind with guided breathing techniques</p>
+            </div>
+
+            <div class="breathing-container">
+                <div class="technique-selector">
+                    <h3>Choose Technique</h3>
+                    <div class="technique-cards">
+                        <div class="technique-card active" data-technique="box">
+                            <div class="technique-icon">📦</div>
+                            <h4>Box Breathing</h4>
+                            <p>4-4-4-4 pattern</p>
+                            <span class="difficulty easy">Beginner</span>
+                        </div>
+                        <div class="technique-card" data-technique="relax">
+                            <div class="technique-icon">😌</div>
+                            <h4>4-7-8 Relax</h4>
+                            <p>4-7-8 pattern</p>
+                            <span class="difficulty medium">Intermediate</span>
+                        </div>
+                        <div class="technique-card" data-technique="stress">
+                            <div class="technique-icon">😰</div>
+                            <h4>Stress Relief</h4>
+                            <p>4-6-8 pattern</p>
+                            <span class="difficulty easy">Beginner</span>
+                        </div>
+                        <div class="technique-card" data-technique="anxiety">
+                            <div class="technique-icon">🌀</div>
+                            <h4>Anxiety Calm</h4>
+                            <p>5-5-5 pattern</p>
+                            <span class="difficulty medium">Intermediate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="breathing-animation-container">
+                    <div class="breathing-circle-wrapper">
+                        <div class="breathing-circle" id="breathingCircle">
+                            <div class="inner-circle"></div>
+                            <div class="phase-text" id="phaseText">Ready</div>
+                        </div>
+                        <div class="breathing-instructions" id="breathingInstructions">
+                            Select a technique and press Start
+                        </div>
+                    </div>
+
+                    <div class="breathing-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Cycles Completed</span>
+                            <span class="stat-value" id="cyclesCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Session Time</span>
+                            <span class="stat-value" id="sessionTime">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="breathing-controls">
+                        <button id="startBreathingBtn" class="control-btn start-btn">▶ Start</button>
+                        <button id="pauseBreathingBtn" class="control-btn pause-btn" disabled>⏸ Pause</button>
+                        <button id="resetBreathingBtn" class="control-btn reset-btn">↻ Reset</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 Guidance Guru - Your Wellness Companion</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

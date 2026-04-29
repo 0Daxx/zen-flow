@@ -1,164 +1,142 @@
-# Guidance Guru - Productivity Wellness Chrome Extension
+# Guidance Guru - Meditation & Breathing Website
 
-A comprehensive Chrome extension that monitors your emotional state, posture, and website usage to promote workplace wellness through mindful breaks and meditation integration.
+## Version 0.0.1 - Demo Ready! 🎉
+
+A beautiful, calming wellness website featuring meditation timer and breathing exercises.
 
 ## Features
 
-### 🎭 Real-time Emotion Recognition
-- Uses face-api.js for facial expression analysis
-- Detects 8 emotion categories: happy, calm, neutral, focused, surprised, stressed, angry, sad, fearful, disgusted
-- Tracks stress levels throughout the day
-- Provides visual feedback via popup widget
+### 🧘 Section 1: Meditation Timer
+- **Preset Durations**: 5, 10, 15, 30 minutes
+- **Custom Duration**: Enter any duration from 1-120 minutes
+- **Ambient Sounds**: Choose from Forest, Rain, or Ocean
+- **Visual Progress Ring**: Beautiful circular timer that depletes as time passes
+- **Start/Pause/Reset Controls**: Full control over your session
+- **Session Tracking**: Automatically saves completed sessions to localStorage
 
-### 🧍 Posture Monitoring
-- Uses PoseNet for body pose estimation
-- Detects common posture issues:
-  - Head forward tilt (text neck)
-  - Shoulder asymmetry
-  - Spine deviation
-  - Hip misalignment
-- Calculates posture score (0-100)
-- Sends alerts for poor posture
+### 💨 Section 2: Breathing Exercises
+- **4 Breathing Techniques**:
+  - **Box Breathing** (4-4-4-4): Perfect for beginners, great for focus
+  - **4-7-8 Relax**: Deep relaxation technique
+  - **Stress Relief** (4-6-8): Releases tension and anxiety
+  - **Anxiety Calm** (5-5-5): Balanced rhythm for calming nerves
+  
+- **Super Animation**: 
+  - Inhale: Circle expands with blue glow
+  - Hold: Circle maintains size with intensified glow
+  - Exhale: Circle contracts smoothly
+  
+- **Real-time Stats**: 
+  - Cycles completed counter
+  - Session timer
+  
+- **Phase Instructions**: Clear guidance for each breathing phase
 
-### ⏸️ Break Enforcement
-- Automatically triggers break modal when:
-  - Extended stress (>45 minutes) detected
-  - Poor posture combined with stress
-- Three break types:
-  - Quick Break (2 min)
-  - Stretch Guide (3 min)
-  - Walk Break (5 min)
-- Non-dismissible until break is selected
-- Visual timer during break
+## How to Use
 
-### 🧘 Meditation App Integration
-- Launches external meditation app based on stress level
-- Recommended sessions:
-  - 2-min breathing (low stress)
-  - 5-min body scan (medium stress)
-  - 10-min guided meditation (high stress)
-- Logs meditation sessions
-- Tracks stress reduction effectiveness
+### Option 1: Open Directly
+Simply open `index.html` in any modern web browser (Chrome, Firefox, Safari, Edge).
 
-### 📊 Analytics Dashboard
-- Today's overview with key metrics
-- Weekly trends for stress and posture
-- Site analytics showing time spent and stress by domain
-- Personalized wellness insights
-- Data export to CSV
+### Option 2: Local Server (Recommended)
+For the best experience, serve the files locally:
 
-### 🌐 Website Tracking
-- Tracks time spent on each website
-- Correlates website usage with stress levels
-- Identifies most stressful websites
-- Option to exclude sites from tracking
+```bash
+# Using Python 3
+python -m http.server 8000
 
-## Installation
+# Using Node.js (if you have npx)
+npx serve
 
-1. Clone or download this repository
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" (toggle in top right)
-4. Click "Load unpacked"
-5. Select the extension folder
-6. Grant camera permissions when prompted
-
-## Project Structure
-
-```
-guidance-guru/
-├── manifest.json          # Extension configuration
-├── background.js          # Service worker
-├── content.js             # Content script
-├── popup.html             # Popup UI
-├── popup.css              # Popup styles
-├── popup.js               # Popup logic
-├── dashboard.html         # Full dashboard page
-├── dashboard.css          # Dashboard styles
-├── dashboard.js           # Dashboard logic
-├── config/
-│   └── constants.js       # Configuration constants
-├── storage/
-│   ├── indexedDB.js       # IndexedDB wrapper
-│   └── chromeStorage.js   # Chrome Storage API wrapper
-├── modules/
-│   ├── emotionDetector.js     # Face-api.js integration
-│   ├── postureDetector.js     # PoseNet integration
-│   ├── breakManager.js        # Break enforcement logic
-│   ├── analytics.js           # Data aggregation
-│   ├── meditationIntegration.js # Meditation app integration
-│   └── notificationManager.js # Toast/modal notifications
-└── assets/
-    ├── icons/             # Extension icons
-    └── models/            # ML models (face-api, posenet)
+# Using PHP
+php -S localhost:8000
 ```
 
-## Usage
+Then navigate to `http://localhost:8000`
 
-### First Time Setup
-1. Install the extension
-2. Click the extension icon to open popup
-3. Grant camera permissions
-4. Configure settings (meditation app URL, etc.)
+## File Structure
 
-### Daily Use
-- The extension runs automatically in the background
-- View current emotion and posture in the popup
-- Receive break notifications when needed
-- Access full dashboard for detailed analytics
+```
+/workspace/
+├── index.html      # Main HTML file
+├── styles.css      # All styling (blue theme, animations)
+├── app.js          # Application logic
+└── README.md       # This file
+```
 
-### Context Menu Actions
-- Right-click on any page for quick actions:
-  - Take a Quick Break
-  - Start Meditation
-  - Exclude this site from tracking
+## Technical Details
 
-## Privacy & Security
+### Technologies Used
+- **HTML5**: Semantic structure
+- **CSS3**: Flexbox, Grid, CSS Variables, Animations
+- **Vanilla JavaScript (ES6+)**: Classes, arrow functions, localStorage
 
-- All data stored locally (IndexedDB + Chrome Storage)
-- No data sent to external servers
-- Camera access only used for local processing
-- 90-day data retention (configurable)
-- Option to exclude specific websites
+### Key Features
+- ✅ **Responsive Design**: Works on desktop, tablet, and mobile
+- ✅ **No Dependencies**: Pure vanilla JS, no frameworks needed
+- ✅ **Offline Capable**: Works without internet connection
+- ✅ **LocalStorage**: Sessions persist between visits
+- ✅ **Smooth Animations**: 60fps CSS transitions
 
-## Dependencies
+### Browser Compatibility
+- Chrome/Edge (recommended)
+- Firefox
+- Safari
+- Opera
 
-The extension uses these external libraries (should be included in assets/models/):
-- [face-api.js](https://github.com/justadudewhohacks/face-api.js) - Emotion detection
-- [PoseNet](https://github.com/tensorflow/tfjs-models/tree/master/posenet) - Posture detection
-- [Chart.js](https://www.chartjs.org/) - Dashboard charts (loaded via CDN)
+## Customization
 
-## Configuration
+### Colors
+Edit CSS variables in `styles.css`:
+```css
+:root {
+    --primary-blue: #2563eb;
+    --light-blue: #dbeafe;
+    --accent-blue: #0ea5e9;
+    --calm-green: #10b981;
+}
+```
 
-Edit `config/constants.js` to customize:
-- Detection intervals
-- Threshold values
-- Break durations
-- Stress level mappings
-- Color schemes
+### Breathing Patterns
+Modify techniques in `app.js`:
+```javascript
+this.techniques = {
+    box: {
+        pattern: [
+            { phase: 'inhale', duration: 4 },
+            { phase: 'hold', duration: 4 },
+            { phase: 'exhale', duration: 4 },
+            { phase: 'hold', duration: 4 }
+        ]
+    }
+};
+```
 
-## Troubleshooting
+## Future Enhancements (v0.0.2+)
+- [ ] Actual ambient audio files (Forest, Rain, Ocean sounds)
+- [ ] Web Audio API for generated soundscapes
+- [ ] User accounts and cloud sync
+- [ ] More breathing techniques
+- [ ] Guided meditations
+- [ ] Progress charts and analytics
+- [ ] Dark mode option
+- [ ] PWA support for mobile installation
 
-### Camera not working
-- Ensure camera permissions are granted
-- Check if another app is using the camera
-- Restart Chrome
+## Screenshots
 
-### Models not loading
-- Verify model files exist in `assets/models/`
-- Check console for specific error messages
-
-### High CPU usage
-- Switch to low-power posture mode in settings
-- Increase detection intervals in config
+The app features:
+- Beautiful gradient purple background
+- Clean white cards with blue accents
+- Animated breathing circle that expands/contracts
+- Circular progress timer for meditation
+- Responsive navigation bar
+- Smooth section transitions
 
 ## License
 
-MIT License - See LICENSE file for details
+MIT License - Feel free to use and modify!
 
-## Contributing
+---
 
-Contributions welcome! Please read CONTRIBUTING.md first.
+**Created with ❤️ for wellness and mindfulness**
 
-## Support
-
-For issues and feature requests, please use GitHub Issues.
+*Guidance Guru v0.0.1 - Your path to inner peace starts here.*

@@ -1,0 +1,598 @@
+/* CSS Variables - Blue Theme */
+:root {
+    --primary-blue: #2563eb;
+    --primary-dark: #1d4ed8;
+    --light-blue: #dbeafe;
+    --accent-blue: #0ea5e9;
+    --stress-red: #dc2626;
+    --calm-green: #10b981;
+    --neutral-gray: #6b7280;
+    --light-gray: #f3f4f6;
+    --bg-white: #ffffff;
+    --shadow: 0 4px 6px rgba(37, 99, 235, 0.1);
+    --shadow-lg: 0 10px 25px rgba(37, 99, 235, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+/* Navigation */
+.navbar {
+    background: var(--bg-white);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.logo h1 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--neutral-gray);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary-blue);
+    background: var(--light-blue);
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Sections */
+.section {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--bg-white);
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Meditation Section */
+.meditation-container {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 968px) {
+    .meditation-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Timer Display */
+.timer-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.time-circle {
+    position: relative;
+    width: 280px;
+    height: 280px;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--light-blue);
+    stroke-width: 8;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: var(--primary-blue);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 816.81;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.time-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+.timer-status {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: var(--neutral-gray);
+    font-weight: 600;
+}
+
+/* Controls Container */
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.duration-selector h3,
+.audio-selector h3 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.preset-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.duration-btn {
+    padding: 0.75rem;
+    border: 2px solid var(--light-blue);
+    background: var(--bg-white);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-blue);
+    transition: all 0.3s ease;
+}
+
+.duration-btn:hover,
+.duration-btn.active {
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    border-color: var(--primary-blue);
+}
+
+.custom-duration {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.custom-duration input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid var(--light-blue);
+    border-radius: 8px;
+    font-size: 1rem;
+    min-width: 100px;
+}
+
+.primary-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* Audio Selector */
+.audio-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.audio-option {
+    cursor: pointer;
+}
+
+.audio-option input[type="radio"] {
+    display: none;
+}
+
+.audio-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid var(--light-blue);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.audio-card:hover {
+    border-color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+.audio-option input:checked + .audio-card {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: var(--bg-white);
+}
+
+.audio-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Timer Controls */
+.timer-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.control-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.start-btn {
+    background: var(--calm-green);
+    color: var(--bg-white);
+}
+
+.start-btn:hover:not(:disabled) {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.pause-btn {
+    background: var(--accent-blue);
+    color: var(--bg-white);
+}
+
+.pause-btn:hover:not(:disabled) {
+    background: #0284c7;
+    transform: translateY(-2px);
+}
+
+.reset-btn {
+    background: var(--neutral-gray);
+    color: var(--bg-white);
+}
+
+.reset-btn:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Breathing Section */
+.breathing-container {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 968px) {
+    .breathing-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Technique Selector */
+.technique-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.technique-card {
+    padding: 1.5rem;
+    border: 2px solid var(--light-blue);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.technique-card:hover {
+    border-color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+.technique-card.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: var(--bg-white);
+}
+
+.technique-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.technique-card h4 {
+    margin-bottom: 0.25rem;
+}
+
+.technique-card p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+.difficulty {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.difficulty.easy {
+    background: var(--calm-green);
+    color: var(--bg-white);
+}
+
+.difficulty.medium {
+    background: var(--accent-blue);
+    color: var(--bg-white);
+}
+
+/* Breathing Animation */
+.breathing-animation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.breathing-circle-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.breathing-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 60px rgba(37, 99, 235, 0.4);
+    transition: all 0.3s ease;
+}
+
+.breathing-circle.inhale {
+    transform: scale(1.5);
+    box-shadow: 0 0 80px rgba(37, 99, 235, 0.6);
+}
+
+.breathing-circle.hold {
+    transform: scale(1.5);
+    box-shadow: 0 0 100px rgba(37, 99, 235, 0.8);
+}
+
+.breathing-circle.exhale {
+    transform: scale(1);
+    box-shadow: 0 0 40px rgba(37, 99, 235, 0.3);
+}
+
+.inner-circle {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--bg-white);
+    opacity: 0.3;
+}
+
+.phase-text {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--bg-white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.breathing-instructions {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--neutral-gray);
+    margin-top: 1rem;
+    min-height: 3rem;
+}
+
+/* Breathing Stats */
+.breathing-stats {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--light-blue);
+    border-radius: 12px;
+    min-width: 150px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--neutral-gray);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+/* Breathing Controls */
+.breathing-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--bg-white);
+    margin-top: 2rem;
+}
+
+/* Animations */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes breathe {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .time-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .progress-ring {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .time-text {
+        font-size: 2rem;
+    }
+    
+    .preset-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .audio-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .technique-cards {
+        grid-template-columns: 1fr;
+    }
+}
