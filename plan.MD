@@ -1,4 +1,5 @@
 context for a Chrome extension that complements your meditation app. Let me structure this as a senior developer would.
+
 ---
 
 ## Project Overview
